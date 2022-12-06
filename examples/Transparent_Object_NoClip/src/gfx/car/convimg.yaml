@@ -1,0 +1,27 @@
+palettes:
+  - name: palette
+    fixed-entries:
+      - color: {index: 0, r: 255, g: 0, b: 128}
+      - color: {index: 1, r: 255, g: 255, b: 255}
+      - color: {index: 2, r: 0, g: 0, b: 0}
+    images: automatic
+
+converts:
+  - name: sprites
+    palette: palette
+    transparent-color-index: 0
+    images:
+      - temp_layers1.png
+      - temp_layers2.png
+      - temp_layers3.png
+      - temp_layers4.png
+      - temp_layers5.png
+      - temp_layers6.png
+      
+outputs:
+  - type: c
+    include-file: CARSPR.h
+    palettes:
+      - palette
+    converts:
+      - sprites

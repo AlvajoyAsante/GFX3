@@ -1,0 +1,34 @@
+palettes:
+  - name: global_palette
+    fixed-entries:
+      - color: {index: 0, r: 255, g: 0, b: 128}
+      - color: {index: 1, r: 255, g: 255, b: 255}
+      - color: {index: 2, r: 0, g: 0, b: 0}
+    images: automatic
+
+converts:
+  - name: sprites
+    palette: global_palette
+    transparent-color-index: 0
+    images:
+      - small_tank_00.png
+      - small_tank_01.png
+      - small_tank_02.png
+      - small_tank_03.png
+      - small_tank_04.png
+      - small_tank_05.png
+      - small_tank_06.png
+      - small_tank_07.png
+      - small_tank_08.png
+      - small_tank_09.png
+      - small_tank_10.png
+      - small_tank_11.png
+      - small_tank_12.png
+      
+outputs:
+  - type: c
+    include-file: gfx.h
+    palettes:
+      - global_palette
+    converts:
+      - sprites
