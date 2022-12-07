@@ -19,8 +19,7 @@ Visit the GTK documentation for information on setting up Hydra with the [CE C T
 You can join the Alvajoy's Discord Server for help or read the GTK documentation. If you don't get a response on the Discord Server, you can ask your questions on the GitHub discussion board or the Cemetech Forum.
 
 
-> *Keep up to date on the recent development by checking out the [Discord Server](https://discord.gg/xyUZgnD4UJ "New Discord Server") or [Cemetech Forums](https://www.cemetech.net/ "Cemetech Forums").
-
+> *Keep up to date on the recent development by checking out the [Discord Server](https://discord.gg/xyUZgnD4UJ "New Discord Server") or [Cemetech Forums](https://www.cemetech.net/ "Cemetech Forums").*
 
 ---
  Copyright &copy; 2020 - 2022, ***Alvajoy Asante***
