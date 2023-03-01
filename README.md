@@ -6,7 +6,7 @@
 > *GFX3 is a Sprite Stacking API for the [CE C Toolchain](https://github.com/CE-Programming/toolchain). GFX3 allows you to effortlessly manage stacked sprites without the haste of over-coding.*
 
 ## Getting Started
-Visit the GTK documentation for information on setting up Hydra with the [CE C Toolchain](https://github.com/CE-Programming/toolchain) and information about its functions and routines.
+Visit the documentation for information on setting up GFX3 with the [CE C Toolchain](https://github.com/CE-Programming/toolchain) and information about its functions and routines.
 
 ## Features
 - **Sprite Stacking**
