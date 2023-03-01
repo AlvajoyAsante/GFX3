@@ -1,0 +1,76 @@
+#ifndef teapot_include_file
+#define teapot_include_file
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "global_palette.h"
+#define sprites_palette_offset 0
+#include "teapot1.h"
+#include "teapot2.h"
+#include "teapot3.h"
+#include "teapot4.h"
+#include "teapot5.h"
+#include "teapot6.h"
+#include "teapot7.h"
+#include "teapot8.h"
+#include "teapot9.h"
+#include "teapot10.h"
+#include "teapot11.h"
+#include "teapot12.h"
+#include "teapot13.h"
+#include "teapot14.h"
+#include "teapot15.h"
+#include "teapot16.h"
+#include "teapot17.h"
+#include "teapot18.h"
+#include "teapot19.h"
+#include "teapot20.h"
+#include "teapot21.h"
+#include "teapot22.h"
+#include "teapot23.h"
+#include "teapot24.h"
+#include "teapot25.h"
+#include "teapot26.h"
+#include "teapot27.h"
+#include "teapot28.h"
+#include "teapot29.h"
+#include "teapot30.h"
+#include "teapot31.h"
+#include "teapot32.h"
+#include "teapot33.h"
+#include "teapot34.h"
+#include "teapot35.h"
+#include "teapot36.h"
+#include "teapot37.h"
+#include "teapot38.h"
+#include "teapot39.h"
+#include "teapot40.h"
+#include "teapot41.h"
+#include "teapot42.h"
+#include "teapot43.h"
+#include "teapot44.h"
+#include "teapot45.h"
+#include "teapot46.h"
+#include "teapot47.h"
+#include "teapot48.h"
+#include "teapot49.h"
+#include "teapot50.h"
+#include "teapot51.h"
+#include "teapot52.h"
+#include "teapot53.h"
+#include "teapot54.h"
+#include "teapot55.h"
+#include "teapot56.h"
+#include "teapot57.h"
+#include "teapot58.h"
+#include "teapot59.h"
+#include "teapot60.h"
+#include "teapot61.h"
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

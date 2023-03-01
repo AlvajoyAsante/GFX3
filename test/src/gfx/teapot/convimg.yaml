@@ -1,0 +1,82 @@
+palettes:
+  - name: global_palette
+    fixed-entries:
+      - color: { index: 0, r: 255, g: 0, b: 128 }
+      - color: { index: 1, r: 255, g: 255, b: 255 }
+    images: automatic
+
+converts:
+  - name: sprites
+    palette: global_palette
+    compress: zx0
+    transparent-color-index: 0
+    images:
+      - teapot1.png
+      - teapot2.png
+      - teapot3.png
+      - teapot4.png
+      - teapot5.png
+      - teapot6.png
+      - teapot7.png
+      - teapot8.png
+      - teapot9.png
+      - teapot10.png
+      - teapot11.png
+      - teapot12.png
+      - teapot13.png
+      - teapot14.png
+      - teapot15.png
+      - teapot16.png
+      - teapot17.png
+      - teapot18.png
+      - teapot19.png
+      - teapot20.png
+      - teapot21.png
+      - teapot22.png
+      - teapot23.png
+      - teapot24.png
+      - teapot25.png
+      - teapot26.png
+      - teapot27.png
+      - teapot28.png
+      - teapot29.png
+      - teapot30.png
+      - teapot31.png
+      - teapot32.png
+      - teapot33.png
+      - teapot34.png
+      - teapot35.png
+      - teapot36.png
+      - teapot37.png
+      - teapot38.png
+      - teapot39.png
+      - teapot40.png
+      - teapot41.png
+      - teapot42.png
+      - teapot43.png
+      - teapot44.png
+      - teapot45.png
+      - teapot46.png
+      - teapot47.png
+      - teapot48.png
+      - teapot49.png
+      - teapot50.png
+      - teapot51.png
+      - teapot52.png
+      - teapot53.png
+      - teapot54.png
+      - teapot55.png
+      - teapot56.png
+      - teapot57.png
+      - teapot58.png
+      - teapot59.png
+      - teapot60.png
+      - teapot61.png
+
+outputs:
+  - type: c
+    include-file: teapot.h
+    palettes:
+      - global_palette
+    converts:
+      - sprites

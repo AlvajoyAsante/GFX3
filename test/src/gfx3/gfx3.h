@@ -12,6 +12,12 @@ extern "C"
 	struct gfx3_object_t
 	{
 		gfx_sprite_t **layers;
+		unsigned char **compressed_layers;
+		
+		// compressed object management
+		bool compressed;
+		int width;
+		int height;
 
 		// x and y offset of stacking
 		int x_offset;
@@ -30,7 +36,11 @@ extern "C"
 	 * @param gfx3_object gfx3_object_t structure.
 	 * @param sprite_buffer a array of sprites
 	 */
-	void gfx3_SetObjectSprites(struct gfx3_object_t *gfx3_object, gfx_sprite_t **sprite_buffer);
+	void gfx3_SetObjectSprites(struct gfx3_object_t *gfx3_object, gfx_sprite_t **sprites);
+
+	void gfx3_SetObjectCompressedSprites(struct gfx3_object_t *gfx3_object, unsigned char **sprites, int width, int height);
+
+	void gfx3_FlipObject(struct gfx3_object_t *gfx3_object);
 
 	// other setting
 	/**
@@ -73,14 +83,19 @@ extern "C"
 	 * @param X x position of object.
 	 * @param Y y position of object.
 	 */
-	void gfx3_Object_NoClip(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y);
+	void gfx3_Object(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y);
 
-	/** Prints a noclip transparent object.
+	/** 
+	 * Prints a noclip transparent object.
 	 * @param gfx3_object gfx3_object_t structure.
 	 * @param X x position of object.
 	 * @param Y y position of object.
 	 */
-	void gfx3_TransparentObject_NoClip(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y);
+	void gfx3_TransparentObject(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y);
+
+	// Displaying Compressed Objects
+	void gfx3_CompressedObject(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y);
+	void gfx3_CompressedTransparentObject(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y);
 
 #ifdef __cplusplus
 }
