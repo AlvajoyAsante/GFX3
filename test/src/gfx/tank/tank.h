@@ -1,5 +1,5 @@
-#ifndef gfx_include_file
-#define gfx_include_file
+#ifndef tank_include_file
+#define tank_include_file
 
 #ifdef __cplusplus
 extern "C" {

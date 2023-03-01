@@ -18,30 +18,31 @@ extern "C"
 		int y_offset;
 
 		// x and y scale of sprite.
-		uint8_t x_scale;
-		uint8_t y_scale;
+		uint8_t scale;
 
 		// rotation angle.
 		uint8_t angle;
 	};
 
 	// Active Objects
-	/** Sets the sprites layer/sprites.
+	/**
+	 * Sets the sprites layer/sprites.
 	 * @param gfx3_object gfx3_object_t structure.
 	 * @param sprite_buffer a array of sprites
-	 * @param sizeofarray size of the array of sprites
 	 */
 	void gfx3_SetObjectSprites(struct gfx3_object_t *gfx3_object, gfx_sprite_t **sprite_buffer);
 
 	// other setting
-	/** Sets the scales of the sprites layers.
+	/**
+	 * Sets the scales of the sprites layers.
 	 * @param gfx3_object gfx3_object_t structure.
 	 * @param x_scale X scale of object.
 	 * @param y_scale Y scale of object.
 	 */
-	void gfx3_SetObjectScale(struct gfx3_object_t *gfx3_object, uint8_t x_scale, uint8_t y_scale);
+	void gfx3_SetObjectScale(struct gfx3_object_t *gfx3_object, uint8_t scale);
 
-	/** Sets the layering offset.
+	/**
+	 * Sets the layering offset.
 	 * @param gfx3_object gfx3_object_t structure.
 	 * @param x_offset X offset of layering object.
 	 * @param y_offset Y offset of layering object.
@@ -50,21 +51,24 @@ extern "C"
 
 	// Rotating Index
 
-	/** Rotates a sprite in a object.
+	/**
+	 * Rotates a sprite in a object.
 	 * @param gfx3_object gfx3_object_t structure.
 	 * @param angle angle of rotation.
 	 * @param z_index the index/layer you want rotate.
 	 */
 	void gfx3_RotateObjectLayer(struct gfx3_object_t *gfx3_object, uint8_t angle, uint8_t z_index);
 
-	/** rotates a full object.
+	/**
+	 * Rotates a full object.
 	 * @param gfx3_object gfx3_object_t structure.
 	 * @param angle angle of rotation.
 	 */
 	void gfx3_RotateObject(struct gfx3_object_t *gfx3_object, uint8_t angle);
 
 	// Displaying Objects
-	/** Prints a noclip object.
+	/**
+	 * Prints a noclip object.
 	 * @param gfx3_object gfx3_object_t structure.
 	 * @param X x position of object.
 	 * @param Y y position of object.
