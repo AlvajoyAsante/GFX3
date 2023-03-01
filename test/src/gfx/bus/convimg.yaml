@@ -1,0 +1,43 @@
+palettes:
+  - name: global_palette
+    fixed-entries:
+      - color: { index: 0, r: 255, g: 0, b: 128 }
+      - color: { index: 1, r: 255, g: 255, b: 255 }
+    images: automatic
+
+converts:
+  - name: sprites
+    palette: global_palette
+    transparent-color-index: 0
+    images:
+      - bus1.png
+      - bus2.png
+      - bus3.png
+      - bus4.png
+      - bus5.png
+      - bus6.png
+      - bus7.png
+      - bus8.png
+      - bus9.png
+      - bus10.png
+      - bus11.png
+      - bus12.png
+      - bus13.png
+      - bus14.png
+      - bus15.png
+      - bus16.png
+      - bus17.png
+      - bus18.png
+      - bus19.png
+      - bus20.png
+      - bus21.png
+      - bus22.png
+      
+
+outputs:
+  - type: c
+    include-file: bus.h
+    palettes:
+      - global_palette
+    converts:
+      - sprites

@@ -41,6 +41,19 @@ void gfx3_SetObjectCompressedSprites(struct gfx3_object_t *gfx3_object, unsigned
 	gfx3_object->angle = 255;
 }
 
+
+// Display Options
+void gfx3_SetObjectScale(struct gfx3_object_t *gfx3_object, uint8_t scale)
+{
+	gfx3_object->scale = scale;
+}
+
+void gfx3_SetObjectOffset(struct gfx3_object_t *gfx3_object, uint8_t x_offset, uint8_t y_offset)
+{
+	gfx3_object->x_offset = x_offset;
+	gfx3_object->y_offset = y_offset;
+}
+
 // Flipping Object
 static uint8_t gfx3_GetLayersLength(struct gfx3_object_t *gfx3_object)
 {
@@ -99,17 +112,6 @@ void gfx3_FlipObject(struct gfx3_object_t *gfx3_object)
 	}
 }
 
-// Display Options
-void gfx3_SetObjectScale(struct gfx3_object_t *gfx3_object, uint8_t scale)
-{
-	gfx3_object->scale = scale;
-}
-
-void gfx3_SetObjectOffset(struct gfx3_object_t *gfx3_object, uint8_t x_offset, uint8_t y_offset)
-{
-	gfx3_object->x_offset = x_offset;
-	gfx3_object->y_offset = y_offset;
-}
 
 // Object Rotation
 void gfx3_RotateObjectLayer(struct gfx3_object_t *gfx3_object, uint8_t angle, uint8_t z_index)
