@@ -6,7 +6,7 @@
 
 set API_NAME = GFX3
 
-title Testing: %API_NAME%
+title Testing: GFX3
 :start
 
 :: Deletes the old version so it does not conflit with the new version

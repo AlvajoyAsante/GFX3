@@ -16,12 +16,12 @@ extern "C"
 		
 		// compressed object management
 		bool compressed;
-		int width;
-		int height;
+		uint16_t width;
+		uint8_t height;
 
 		// x and y offset of stacking
-		int x_offset;
-		int y_offset;
+		uint16_t x_offset;
+		uint8_t y_offset;
 
 		// x and y scale of sprite.
 		uint8_t scale;
@@ -48,7 +48,7 @@ extern "C"
 	 * 
 	 * @note All sprites must be the same size.
 	 */
-	void gfx3_SetObjectCompressedSprites(struct gfx3_object_t *gfx3_object, unsigned char **sprites, int width, int height);
+	void gfx3_SetObjectCompressedSprites(struct gfx3_object_t *gfx3_object, unsigned char **sprites, uint16_t width, uint8_t height);
 
 	// other setting
 

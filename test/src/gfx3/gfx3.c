@@ -22,7 +22,7 @@ void gfx3_SetObjectSprites(struct gfx3_object_t *gfx3_object, gfx_sprite_t **spr
 	gfx3_object->angle = 255;
 }
 
-void gfx3_SetObjectCompressedSprites(struct gfx3_object_t *gfx3_object, unsigned char **sprites, int width, int height)
+void gfx3_SetObjectCompressedSprites(struct gfx3_object_t *gfx3_object, unsigned char **sprites, uint16_t width, uint8_t height)
 {
 	gfx3_object->compressed = true;
 
@@ -39,6 +39,19 @@ void gfx3_SetObjectCompressedSprites(struct gfx3_object_t *gfx3_object, unsigned
 	gfx3_object->y_offset = 0;
 
 	gfx3_object->angle = 255;
+}
+
+
+// Display Options
+void gfx3_SetObjectScale(struct gfx3_object_t *gfx3_object, uint8_t scale)
+{
+	gfx3_object->scale = scale;
+}
+
+void gfx3_SetObjectOffset(struct gfx3_object_t *gfx3_object, uint8_t x_offset, uint8_t y_offset)
+{
+	gfx3_object->x_offset = x_offset;
+	gfx3_object->y_offset = y_offset;
 }
 
 // Flipping Object
@@ -76,7 +89,7 @@ void gfx3_FlipObject(struct gfx3_object_t *gfx3_object)
 
 		for (int i = size - 1; i >= 0; i--)
 		{
-			temp[size - i - 1] = gfx3_object->layers[i];
+			temp[(size - i) - 1] = gfx3_object->layers[i];
 		}
 
 		temp[size] = NULL;
@@ -90,25 +103,13 @@ void gfx3_FlipObject(struct gfx3_object_t *gfx3_object)
 
 		for (int i = size - 1; i >= 0; i--)
 		{
-			temp[size - i - 1] = gfx3_object->compressed_layers[i];
+			temp[(size - i) - 1] = gfx3_object->compressed_layers[i];
 		}
 
 		temp[size] = NULL;
 
 		gfx3_object->compressed_layers = temp;
 	}
-}
-
-// Display Options
-void gfx3_SetObjectScale(struct gfx3_object_t *gfx3_object, uint8_t scale)
-{
-	gfx3_object->scale = scale;
-}
-
-void gfx3_SetObjectOffset(struct gfx3_object_t *gfx3_object, uint8_t x_offset, uint8_t y_offset)
-{
-	gfx3_object->x_offset = x_offset;
-	gfx3_object->y_offset = y_offset;
 }
 
 // Object Rotation
