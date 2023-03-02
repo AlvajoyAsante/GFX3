@@ -15,9 +15,6 @@ Visit the documentation for information on setting up GFX3 with the [CE C Toolch
   - Rotation on an indivial layer
   - include different rendering techniques
 
-## Getting Help
-You can join the Alvajoy's Discord Server for help or read the GTK documentation. If you don't get a response on the Discord Server, you can ask your questions on the GitHub discussion board or the Cemetech Forum.
-
 
 > *Keep up to date on the recent development by checking out the [Discord Server](https://discord.gg/xyUZgnD4UJ "New Discord Server") or [Cemetech Forums](https://www.cemetech.net/ "Cemetech Forums").*
 
