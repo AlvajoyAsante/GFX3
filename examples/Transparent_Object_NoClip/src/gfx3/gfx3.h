@@ -1,21 +1,24 @@
-/*
-** GFX3 LIBRARY BY ALVAJOY123.
-** LICENSE : MIT
-**
-** Copyright 2020 - 2021 Alvajoy (Alvajoy123) A.
-**
-** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files 
-** (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, 
-** publish, distribute, sub-license, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do 
-** so, subject to the following conditions:
-**
-** The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-**
-** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
-** MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
-** FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
-** WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+/**
+ * @file gfx3.h
+ * @brief This file contains the sprite stacking library
+ *
+ * @author Alvajoy "Alvajoy123" Asante
+ * @version 1.0
+ * @copyright Copyright (c) 2018 - 2022
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 
 #ifndef GFX3_H
 #define GFX3_H
@@ -23,78 +26,143 @@
 #include <tice.h>
 #include <graphx.h>
 
-struct gfx3_object_t{
-	// Sprite layers allocated based on sprite max_index
-	gfx_sprite_t *layers[35];
-	// Amount of sprite layers.
-	uint8_t max_index;
-	
-	// x and y offset of stacking
-	int x_offset;
-	int y_offset;
-	
-	// x and y scale of sprite.
-	uint8_t x_scale;
-	uint8_t y_scale;
-	
-	// rotation angle.
-	uint8_t angle;
-};
+#ifdef __cplusplus
+extern "C"
+{
+#endif /* __cplusplus */
 
-// Active Objects
-/* Sets the sprites layer/sprites.
-** @param gfx3_object gfx3_object_t structure.
-** @param sprite_buffer a array of sprites
-** @param sizeofarray size of the array of sprites
-*/
-void gfx3_SetObjectSprites(struct gfx3_object_t *gfx3_object, gfx_sprite_t *sprite_buffer[], int sizeofarray);
+	struct gfx3_object_t
+	{
+		gfx_sprite_t **layers;
+		unsigned char **compressed_layers;
 
-// other settings 
-/* Sets up variables in gfx3_object (Do this before rendering an object!).
-** @param gfx3_object gfx3_object_t structure.
-*/
-void gfx3_ObjectInit(struct gfx3_object_t *gfx3_object);
+		// compressed object management
+		bool compressed;
+		uint16_t width;
+		uint8_t height;
 
-/* Sets the scales of the sprites layers.
-** @param gfx3_object gfx3_object_t structure.
-** @param x_scale X scale of object.
-** @param y_scale Y scale of object.
-*/
-void gfx3_SetObjectScale(struct gfx3_object_t *gfx3_object, uint8_t x_scale, uint8_t y_scale);
+		// x and y offset of stacking
+		uint16_t x_offset;
+		uint8_t y_offset;
 
-/* Sets the layering offset.
-** @param gfx3_object gfx3_object_t structure.
-** @param x_offset X offset of layering object.
-** @param y_offset Y offset of layering object.
-*/
-void gfx3_SetObjectOffset(struct gfx3_object_t *gfx3_object, uint8_t x_offset, uint8_t y_offset);
+		// x and y scale of sprite.
+		uint8_t scale;
 
+		// rotation angle.
+		uint8_t angle;
+	};
 
-// Rotating Index
-/* Rotates a sprite in a object.
-** @param gfx3_object gfx3_object_t structure.
-** @param angle angle of rotation.
-** @param z_index the index/layer you want rotate.
-*/
-void gfx3_RotateObjectLayer(struct gfx3_object_t *gfx3_object, uint8_t angle, uint8_t z_index);
-/* rotates a full object.
-** @param gfx3_object gfx3_object_t structure.
-** @param angle angle of rotation.
-*/
-void gfx3_RotateObject(struct gfx3_object_t *gfx3_object, uint8_t angle);
+	// Active Objects
+	/**
+	 * Sets the sprites layer/sprites.
+	 * @param gfx3_object gfx3_object_t structure.
+	 * @param sprites a array of sprites
+	 */
+	void gfx3_SetObjectSprites(struct gfx3_object_t *gfx3_object, gfx_sprite_t **sprites);
 
-// Displaying Objects
-/* Prints a noclip object.
-** @param gfx3_object gfx3_object_t structure.
-** @param X x position of object.
-** @param Y y position of object.
-*/
-void gfx3_Object_NoClip(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y);
-/* Prints a noclip transparent object.
-** @param gfx3_object gfx3_object_t structure.
-** @param X x position of object.
-** @param Y y position of object.
-*/
-void gfx3_TransparentObject_NoClip(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y);
+	/**
+	 * Sets the sprites layer/sprites.
+	 * @param gfx3_object gfx3_object_t structure.
+	 * @param sprites array of pointers to compressed sprites.
+	 * @param width Width of the compressed sprite
+	 * @param height Height of the compressed sprite
+	 *
+	 * @note All sprites must be the same size.
+	 */
+	void gfx3_SetObjectCompressedSprites(struct gfx3_object_t *gfx3_object, unsigned char **sprites, uint16_t width, uint8_t height);
+
+	// other setting
+
+	/**
+	 * Sets the scales of the sprites layers.
+	 * @param gfx3_object gfx3_object_t structure.
+	 * @param scale scale of object.
+	 */
+	void gfx3_SetObjectScale(struct gfx3_object_t *gfx3_object, uint8_t scale);
+
+	/**
+	 * Sets the layering offset.
+	 * @param gfx3_object gfx3_object_t structure.
+	 * @param x_offset X offset of layering object.
+	 * @param y_offset Y offset of layering object.
+	 */
+	void gfx3_SetObjectOffset(struct gfx3_object_t *gfx3_object, uint8_t x_offset, uint8_t y_offset);
+
+	/**
+	 * Sets the object angle.
+	 * @param gfx3_object gfx3_object_t structure.
+	 * @param angle angle of object.
+	 */
+
+	void gfx3_SetObjectAngle(struct gfx3_object_t *gfx3_object, uint8_t angle);
+
+	/**
+	 * Sets the object angle.
+	 * @param gfx3_object gfx3_object_t structure.
+	 * @param width Width of the compressed sprite
+	 * @param height Height of the compressed sprite
+	 */
+	void gfx3_SetObjectCompressedSize(struct gfx3_object_t *gfx3_object, uint16_t width, uint8_t height);
+
+	// Flipping objects
+	/**
+	 * flips the order of the sprites in the layers or compressed_layers.
+	 * @param gfx3_object gfx3_object_t structure.
+	 */
+	void gfx3_FlipObject(struct gfx3_object_t *gfx3_object);
+
+	// Rotating objects and index
+	/**
+	 * Rotates a sprite in a object.
+	 * @param gfx3_object gfx3_object_t structure.
+	 * @param angle angle of rotation.
+	 * @param z_index the index/layer you want rotate.
+	 */
+	void gfx3_RotateObjectLayer(struct gfx3_object_t *gfx3_object, uint8_t angle, uint8_t z_index);
+
+	/**
+	 * Rotates a full object.
+	 * @param gfx3_object gfx3_object_t structure.
+	 * @param angle angle of rotation.
+	 */
+	void gfx3_RotateObject(struct gfx3_object_t *gfx3_object, uint8_t angle);
+
+	// Displaying Objects
+	/**
+	 * Prints a noclip object.
+	 * @param gfx3_object gfx3_object_t structure.
+	 * @param X x position of object.
+	 * @param Y y position of object.
+	 */
+	void gfx3_Object(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y);
+
+	/**
+	 * Prints a noclip transparent object.
+	 * @param gfx3_object gfx3_object_t structure.
+	 * @param X x position of object.
+	 * @param Y y position of object.
+	 */
+	void gfx3_TransparentObject(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y);
+
+	// Displaying Compressed Objects
+	/**
+	 * Prints a compressed object.
+	 * @param gfx3_object gfx3_object_t structure.
+	 * @param X x position of object.
+	 * @param Y y position of object.
+	 */
+	void gfx3_CompressedObject(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y);
+
+	/**
+	 * Prints a compressed transparent object.
+	 * @param gfx3_object gfx3_object_t structure.
+	 * @param X x position of object.
+	 * @param Y y position of object.
+	 */
+	void gfx3_CompressedTransparentObject(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif

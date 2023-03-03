@@ -11,13 +11,7 @@ converts:
     palette: global_palette
     transparent-color-index: 2
     images:
-      - car1.png
-      - car2.png
-      - car3.png
-      - car4.png
-      - car5.png
-      - car6.png
-
+      - star.png
 
 outputs:
   - type: c

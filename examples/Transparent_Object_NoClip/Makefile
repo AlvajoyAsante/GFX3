@@ -2,9 +2,9 @@
 # Program Options
 # ----------------------------
 
-NAME         ?= GFX3
+NAME         ?= DEMO
 ICON         ?= icon.png
-DESCRIPTION  ?= "GFX3 TEST"
+DESCRIPTION  ?= "GFX3 DEMO"
 COMPRESSED   ?= YES
 ARCHIVED     ?= NO
 

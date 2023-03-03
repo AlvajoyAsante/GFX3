@@ -41,7 +41,8 @@ gfx_sprite_t *sprites[23] = {bus1,
                              NULL};
 
 // Creates a car object
-struct gfx3_object_t object;
+struct gfx3_object_t objectA;
+struct gfx3_object_t objectB;
 
 int main(void)
 {
@@ -49,7 +50,8 @@ int main(void)
 
     // Set Sprites
     // gfx3_SetObjectCompressedSprites(&object, sprites, teapot1_width, teapot1_height);
-    gfx3_SetObjectSprites(&object, sprites);
+    gfx3_SetObjectSprites(&objectA, sprites);
+    gfx3_SetObjectSprites(&objectB, sprites);
 
     /* Initialize graphics drawing */
     gfx_Begin();
@@ -60,16 +62,20 @@ int main(void)
     /* Draw to buffer to avoid artifacts */
     gfx_SetDrawBuffer();
 
-    gfx3_FlipObject(&object); // New feature!
+    // New feature!
+    gfx3_FlipObject(&objectA); 
 
     // testing offsetting 
     // gfx3_SetObjectOffset(&object, 1, 1);
 
-    do
+    
+    while(!os_GetCSC())
     {
         /* Draw a rotated transparent scaled spite */
-        gfx3_RotateObject(&object, x);
-        gfx3_TransparentObject(&object, ((LCD_WIDTH - bus1_width) / 2), ((LCD_HEIGHT - bus1_height) / 2));
+        gfx3_RotateObject(&objectA, x);
+        gfx3_RotateObject(&objectB, x);
+        gfx3_TransparentObject(&objectA, ((LCD_WIDTH - (bus1_width*2)) / 2), ((LCD_HEIGHT - (bus1_height*2)) / 2));
+        gfx3_TransparentObject(&objectB, ((LCD_WIDTH + (bus1_width*2)) / 2), ((LCD_HEIGHT + (bus1_height*2)) / 2));
 
         /* Show the buffered screen */
         gfx_BlitBuffer();
@@ -80,7 +86,7 @@ int main(void)
         /* Change the rotation amount */
         x += 5;
 
-    } while (!os_GetCSC());
+    }
 
     /* End graphics drawing */
     gfx_End();

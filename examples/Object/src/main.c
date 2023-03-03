@@ -14,15 +14,18 @@
 #include "gfx3/gfx3.h"
 
 /* Must include sprite layers */
-#include "gfx/car/sprites.h"
+#include "gfx/sprites.h"
 
 /* Array filled layers in order */
-gfx_sprite_t *sprites[7] = {car1,
-							car2,
-							car3,
-							car4,
-							car5,
-							car6,
+gfx_sprite_t *sprites[10] = {star,
+							star,
+							star,
+							star,
+							star,
+							star,
+							star,
+							star,
+							star,
 							NULL}; // Must always include NULL at the end
 
 /* Create a gfx3 object (Make sure it isn't ) */
