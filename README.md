@@ -9,7 +9,7 @@
 *GFX3*  is designed to make it easy to create and manipulate stacked sprites in your application. With the library, you can stack multiple sprites on top of each other, adjust their position, scale, and rotation, and even make them transparent. This can help you create more complex and dynamic graphics in your application, without having to manually manipulate each sprite individually.
 
 ### How to use GFX3
-* Copy the `/gfx` folder into your project's `/src` directory.
+* Copy the `/gfx3` folder into your project's `/src` directory.
 * In your project's `main.c` file, include the GFX3 header file:
 	* `#include "gfx3/gfx3.h"`
 	* This will allow you to use GFX3 functions in your code.
@@ -26,7 +26,7 @@ gfx3_SetObjectSprites(my_object, layers);
 	* `gfx3_Object(&my_object, x, y);`
 	* Replace `x` and `y` with the desired screen coordinates to position the sprite.
  
-*For more detailed examples and tutorials, see the `examples` directory in the GFX3 repository.*
+*For more detailed examples and tutorials, see the `/examples` directory in the GFX3 repository.*
 
 ## Features
 - ***Easy to use API*** for creating and manipulating stacked sprites.
