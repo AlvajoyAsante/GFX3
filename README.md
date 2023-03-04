@@ -1,5 +1,5 @@
 # GFX3
-![](https://i.imgur.com/e3tJoFV.png)
+![](https://i.imgur.com/sADfQxL.jpg)
 
 ![](https://img.shields.io/github/release/Overload02/GFX3) ![](https://img.shields.io/github/issues/Overload02/GFX3)
 
