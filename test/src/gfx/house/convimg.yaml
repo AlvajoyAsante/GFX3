@@ -1,0 +1,35 @@
+palettes:
+  - name: global_palette
+    fixed-entries:
+      - color: { index: 0, r: 0, g: 0, b: 0}
+      - color: { index: 1, r: 255, g: 255, b: 255 }
+      - color: { index: 2, r: 255, g: 0, b: 128 }
+    images: automatic
+
+converts:
+  - name: sprites
+    palette: global_palette
+    transparent-color-index: 2
+    images:
+      - house1.png
+      - house2.png
+      - house3.png
+      - house4.png
+      - house5.png
+      - house6.png
+      - house7.png
+      - house8.png
+      - house9.png
+      - house10.png
+      - house11.png
+      - house12.png
+      - house13.png
+      - house14.png
+
+outputs:
+  - type: c
+    include-file: house.h
+    palettes:
+      - global_palette
+    converts:
+      - sprites
