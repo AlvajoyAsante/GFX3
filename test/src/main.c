@@ -65,10 +65,11 @@ int main(void)
     while (!os_GetCSC())
     {
         /* Draw a rotated transparent scaled spite */
+        gfx_SetColor(7); // Green
+        gfx_FillRectangle((LCD_WIDTH - objectA.width) / 2, (LCD_HEIGHT - objectA.height) / 2, objectA.width, objectA.height);
+        
         gfx3_SetObjectAngle(&objectA, x);
-        gfx3_SetObjectAngle(&objectB, x);
-        gfx3_TransparentObject(&objectA, ((LCD_WIDTH - (house1_width * 2)) / 2), ((LCD_HEIGHT - (house1_height * 2)) / 2));
-        gfx3_TransparentObject(&objectB, ((LCD_WIDTH + (house1_width * 2)) / 2), ((LCD_HEIGHT + (house1_height * 2)) / 2));
+        gfx3_TransparentObject(&objectA, (LCD_WIDTH - objectA.width) / 2, (LCD_HEIGHT - objectA.height) / 2);
 
         /* Show the buffered screen */
         gfx_BlitBuffer();

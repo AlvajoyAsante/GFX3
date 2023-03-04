@@ -18,6 +18,8 @@ void gfx3_SetObjectSprites(struct gfx3_object_t *gfx3_object, gfx_sprite_t **spr
 	gfx3_SetObjectOffset(gfx3_object, 0, 0);
 
 	gfx3_SetObjectAngle(gfx3_object, 255);
+
+	gfx3_GetObjectSize(gfx3_object);
 }
 
 void gfx3_SetObjectCompressedSprites(struct gfx3_object_t *gfx3_object, unsigned char **sprites, uint16_t width, uint8_t height)
@@ -34,9 +36,20 @@ void gfx3_SetObjectCompressedSprites(struct gfx3_object_t *gfx3_object, unsigned
 	gfx3_SetObjectOffset(gfx3_object, 0, 0);
 
 	gfx3_SetObjectAngle(gfx3_object, 255);
+
+	gfx3_GetObjectSize(gfx3_object);
 }
 
 // Display Options
+void gfx3_GetObjectSize(struct gfx3_object_t *gfx3_object)
+{
+	gfx_sprite_t **layers = gfx3_object->layers;
+
+	uint8_t size = gfx3_GetLength(gfx3_object);
+
+	gfx3_object->width = layers[0]->width + size;
+	gfx3_object->height = layers[0]->height + size;
+}
 
 void gfx3_SetObjectScale(struct gfx3_object_t *gfx3_object, uint8_t scale)
 {
@@ -56,12 +69,12 @@ void gfx3_SetObjectAngle(struct gfx3_object_t *gfx3_object, uint8_t angle)
 
 void gfx3_SetObjectCompressedSize(struct gfx3_object_t *gfx3_object, uint16_t width, uint8_t height)
 {
-	gfx3_object->width = width;
-	gfx3_object->height = height;
+	gfx3_object->compressed_width = width;
+	gfx3_object->compressed_height = height;
 }
 
 // Flipping Object
-static uint8_t gfx3_GetLayersLength(struct gfx3_object_t *gfx3_object)
+uint8_t gfx3_GetLength(struct gfx3_object_t *gfx3_object)
 {
 	int i = 0;
 
@@ -85,9 +98,11 @@ static uint8_t gfx3_GetLayersLength(struct gfx3_object_t *gfx3_object)
 
 void gfx3_FlipObject(struct gfx3_object_t *gfx3_object)
 {
-	// if ((gfx3_object->layers == NULL) && (gfx3_object->compressed_layers == NULL)) return; // Nothing in the sprites / compressed sprites
+	// Nothing in the sprites or compressed sprites.
+	if ((gfx3_object->layers == NULL) && (gfx3_object->compressed_layers == NULL))
+		return;
 
-	uint8_t size = gfx3_GetLayersLength(gfx3_object);
+	uint8_t size = gfx3_GetLength(gfx3_object);
 
 	if (!(gfx3_object->compressed))
 	{
@@ -148,6 +163,11 @@ void gfx3_Object(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y)
 	if (gfx3_object->compressed)
 		return;
 
+	uint8_t size = gfx3_GetLength(gfx3_object);
+	// places the object in the top right corner.
+	x += size;
+	y += size;
+
 	uint8_t scale = gfx3_object->scale;
 	uint8_t angle = gfx3_object->angle;
 	gfx_sprite_t **layers = gfx3_object->layers;
@@ -166,6 +186,11 @@ void gfx3_TransparentObject(struct gfx3_object_t *gfx3_object, uint24_t x, uint8
 	if (gfx3_object->compressed)
 		return;
 
+	uint8_t size = gfx3_GetLength(gfx3_object);
+	// places the object in the top right corner.
+	x += size;
+	y += size;
+
 	uint8_t scale = gfx3_object->scale;
 	uint8_t angle = gfx3_object->angle;
 	gfx_sprite_t **layers = gfx3_object->layers;
@@ -182,12 +207,17 @@ void gfx3_TransparentObject(struct gfx3_object_t *gfx3_object, uint24_t x, uint8
 // Compressed Sprite Stacking
 void gfx3_CompressedObject(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y)
 {
-	if (!gfx3_object->compressed)
+	if (!gfx3_object->compressed || gfx3_object->compressed_layers == NULL)
 		return;
 
+	uint8_t size = gfx3_GetLength(gfx3_object);
+	// places the object in the top right corner.
+	x += size;
+	y += size;
+
 	gfx_sprite_t *temp;
-	uint8_t width = gfx3_object->width;
-	uint8_t height = gfx3_object->height;
+	uint8_t width = gfx3_object->compressed_width;
+	uint8_t height = gfx3_object->compressed_height;
 	temp = gfx_MallocSprite(width, height);
 
 	uint8_t scale = gfx3_object->scale;
@@ -209,13 +239,17 @@ void gfx3_CompressedObject(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_
 
 void gfx3_CompressedTransparentObject(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y)
 {
-
-	if (!gfx3_object->compressed)
+	if (!gfx3_object->compressed || gfx3_object->compressed_layers == NULL)
 		return;
 
+	uint8_t size = gfx3_GetLength(gfx3_object);
+	// places the object in the top right corner.
+	x += size;
+	y += size;
+
 	gfx_sprite_t *temp;
-	uint8_t width = gfx3_object->width;
-	uint8_t height = gfx3_object->height;
+	uint8_t width = gfx3_object->compressed_width;
+	uint8_t height = gfx3_object->compressed_height;
 	temp = gfx_MallocSprite(width, height);
 
 	uint8_t scale = gfx3_object->scale;

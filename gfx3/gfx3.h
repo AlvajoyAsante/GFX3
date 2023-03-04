@@ -38,6 +38,10 @@ extern "C"
 
 		// compressed object management
 		bool compressed;
+		uint16_t compressed_width;
+		uint8_t compressed_height;
+
+		// width and height of object
 		uint16_t width;
 		uint8_t height;
 
@@ -72,6 +76,11 @@ extern "C"
 	void gfx3_SetObjectCompressedSprites(struct gfx3_object_t *gfx3_object, unsigned char **sprites, uint16_t width, uint8_t height);
 
 	// other setting
+	/**
+	 * Get the size width and height
+	 * @param gfx3_object gfx3_object_t structure.
+	 */
+	void gfx3_GetObjectSize(struct gfx3_object_t *gfx3_object);
 
 	/**
 	 * Sets the scales of the sprites layers.
@@ -103,6 +112,12 @@ extern "C"
 	 * @param height Height of the compressed sprite
 	 */
 	void gfx3_SetObjectCompressedSize(struct gfx3_object_t *gfx3_object, uint16_t width, uint8_t height);
+
+	/**
+	 * Gets the amount of layers.
+	 * @param gfx3_object gfx3_object_t structure.
+	 */
+	uint8_t gfx3_GetLength(struct gfx3_object_t *gfx3_object);
 
 	// Flipping objects
 	/**
