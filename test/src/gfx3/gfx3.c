@@ -112,15 +112,9 @@ void gfx3_GetObjectSize(struct gfx3_object_t *gfx3_object)
 {
 	gfx_sprite_t **layers = gfx3_object->layers;
 	uint8_t size = gfx3_GetLength(gfx3_object);
-	size++;
+
 	gfx3_object->width = layers[0]->width + (size * gfx3_object->x_offset);
 	gfx3_object->height = layers[0]->height + (size * gfx3_object->y_offset);
-
-	dbg_sprintf(dbgout, "Size = %u \n", size - 1);
-	dbg_sprintf(dbgout, "Width = %u \n", gfx3_object->width);
-	dbg_sprintf(dbgout, "Height = %u \n", gfx3_object->height);
-	dbg_sprintf(dbgout, "X offset = %u \n", gfx3_object->x_offset);
-	dbg_sprintf(dbgout, "X offset = %u \n", gfx3_object->y_offset);
 }
 
 void gfx3_SetObjectScale(struct gfx3_object_t *gfx3_object, uint8_t scale)
