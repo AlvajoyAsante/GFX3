@@ -2,6 +2,7 @@
 #include <graphx.h>
 #include <string.h>
 #include <compression.h>
+#include <debug.h>
 
 #include "gfx3.h"
 
@@ -15,7 +16,7 @@ void gfx3_SetObjectSprites(struct gfx3_object_t *gfx3_object, gfx_sprite_t **spr
 
 	gfx3_SetObjectScale(gfx3_object, 64);
 
-	gfx3_SetObjectOffset(gfx3_object, 0, 0);
+	gfx3_SetObjectOffset(gfx3_object, 1, 1);
 
 	gfx3_SetObjectAngle(gfx3_object, 255);
 
@@ -33,7 +34,7 @@ void gfx3_SetObjectCompressedSprites(struct gfx3_object_t *gfx3_object, unsigned
 
 	gfx3_SetObjectScale(gfx3_object, 64);
 
-	gfx3_SetObjectOffset(gfx3_object, 0, 0);
+	gfx3_SetObjectOffset(gfx3_object, 1, 1);
 
 	gfx3_SetObjectAngle(gfx3_object, 255);
 
@@ -41,14 +42,85 @@ void gfx3_SetObjectCompressedSprites(struct gfx3_object_t *gfx3_object, unsigned
 }
 
 // Display Options
+void gfx3_FillSprite(gfx_sprite_t *sprite, uint8_t color)
+{
+
+	uint16_t width = sprite->width;
+	uint8_t height = sprite->height;
+
+	uint16_t size = width * height;
+
+	for (int i = 0; i < size; i++)
+	{
+		sprite->data[i] = color;
+	}
+}
+
+void gfx3_AddPadding(struct gfx3_object_t *gfx3_object, uint8_t amount, uint8_t color)
+{
+
+	// Nothing in the sprites or compressed sprites.
+	if ((gfx3_object->layers == NULL) && (gfx3_object->compressed_layers == NULL))
+		return;
+
+	gfx_sprite_t **layers = gfx3_object->layers;
+	uint8_t size = gfx3_GetLength(gfx3_object);
+
+	uint16_t width = layers[0]->width;
+	uint8_t height = layers[0]->height;
+
+	uint16_t padded_width = width + (amount * 2);
+	uint16_t padded_height = height + (amount * 2);
+
+	// Checks if the sprite would go over limit
+	if (width + amount > 255 || height + amount > 255 || amount == 0)
+		return;
+
+	gfx_sprite_t **temp = (gfx_sprite_t **)malloc((size + 1) * sizeof(gfx_sprite_t *));
+
+	for (int i = 0; i < size; i++)
+	{
+		/* Allocate new sprite */
+		gfx_sprite_t *new_sprite = gfx_MallocSprite(padded_width, padded_height);
+
+		gfx3_FillSprite(new_sprite, color);
+
+		/* Center the old sprite to the new sprite */
+		uint16_t x_offset = (padded_width - width) / 2;
+		uint16_t y_offset = (padded_height - height) / 2;
+
+		for (int y = 0; y < height; y++)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				new_sprite->data[(y + y_offset) * padded_width + (x + x_offset)] = layers[i]->data[y * width + x];
+			}
+		}
+
+		/* Store the sprite in double pointer */
+		temp[i] = new_sprite;
+	}
+
+	/* Set temp to new position */
+	gfx3_object->layers = temp;
+
+	/* Get new size of object */
+	gfx3_GetObjectSize(gfx3_object);
+}
+
 void gfx3_GetObjectSize(struct gfx3_object_t *gfx3_object)
 {
 	gfx_sprite_t **layers = gfx3_object->layers;
-
 	uint8_t size = gfx3_GetLength(gfx3_object);
+	size++;
+	gfx3_object->width = layers[0]->width + (size * gfx3_object->x_offset);
+	gfx3_object->height = layers[0]->height + (size * gfx3_object->y_offset);
 
-	gfx3_object->width = layers[0]->width + size;
-	gfx3_object->height = layers[0]->height + size;
+	// dbg_sprintf(dbgout, "Size = %u \n", size - 1);
+	// dbg_sprintf(dbgout, "Width = %u \n", gfx3_object->width);
+	// dbg_sprintf(dbgout, "Height = %u \n", gfx3_object->height);
+	// dbg_sprintf(dbgout, "X offset = %u \n", gfx3_object->x_offset);
+	// dbg_sprintf(dbgout, "Y offset = %u \n", gfx3_object->y_offset);
 }
 
 void gfx3_SetObjectScale(struct gfx3_object_t *gfx3_object, uint8_t scale)
@@ -82,15 +154,19 @@ uint8_t gfx3_GetLength(struct gfx3_object_t *gfx3_object)
 	{
 		gfx_sprite_t **layers = gfx3_object->layers;
 
-		for (i = 0; layers[i] != NULL; ++i)
-			;
+		while (layers[i] != NULL)
+		{
+			++i;
+		}
 	}
 	else
 	{
 		unsigned char **layers = gfx3_object->compressed_layers;
 
-		for (i = 0; layers[i] != NULL; ++i)
-			;
+		while (layers[i] != NULL)
+		{
+			++i;
+		}
 	}
 
 	return i;
@@ -165,8 +241,8 @@ void gfx3_Object(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y)
 
 	uint8_t size = gfx3_GetLength(gfx3_object);
 	// places the object in the top right corner.
-	x += size;
-	y += size;
+	x += (size * gfx3_object->y_offset);
+	y += (size * gfx3_object->y_offset);
 
 	uint8_t scale = gfx3_object->scale;
 	uint8_t angle = gfx3_object->angle;
@@ -174,8 +250,8 @@ void gfx3_Object(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y)
 
 	for (int i = 0; layers[i] != NULL; i++)
 	{
-		int sprite_x = x - (i << gfx3_object->x_offset);
-		int sprite_y = y - (i << gfx3_object->y_offset);
+		int sprite_x = x - (i * gfx3_object->x_offset);
+		int sprite_y = y - (i * gfx3_object->y_offset);
 
 		gfx_RotatedScaledSprite_NoClip(layers[i], sprite_x, sprite_y, angle, scale);
 	}
@@ -188,8 +264,8 @@ void gfx3_TransparentObject(struct gfx3_object_t *gfx3_object, uint24_t x, uint8
 
 	uint8_t size = gfx3_GetLength(gfx3_object);
 	// places the object in the top right corner.
-	x += size;
-	y += size;
+	x += (size * gfx3_object->x_offset);
+	y += (size * gfx3_object->y_offset);
 
 	uint8_t scale = gfx3_object->scale;
 	uint8_t angle = gfx3_object->angle;
@@ -197,8 +273,8 @@ void gfx3_TransparentObject(struct gfx3_object_t *gfx3_object, uint24_t x, uint8
 
 	for (int i = 0; layers[i] != NULL; i++)
 	{
-		int sprite_x = x - (i << (gfx3_object->x_offset));
-		int sprite_y = y - (i << (gfx3_object->y_offset));
+		int sprite_x = x - (i * (gfx3_object->x_offset));
+		int sprite_y = y - (i * (gfx3_object->y_offset));
 
 		gfx_RotatedScaledTransparentSprite_NoClip(layers[i], sprite_x, sprite_y, angle, scale);
 	}
@@ -212,8 +288,8 @@ void gfx3_CompressedObject(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_
 
 	uint8_t size = gfx3_GetLength(gfx3_object);
 	// places the object in the top right corner.
-	x += size;
-	y += size;
+	x += (size * gfx3_object->y_offset);
+	y += (size * gfx3_object->y_offset);
 
 	gfx_sprite_t *temp;
 	uint8_t width = gfx3_object->compressed_width;
@@ -226,8 +302,8 @@ void gfx3_CompressedObject(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_
 
 	for (int i = 0; layers[i] != NULL; i++)
 	{
-		int sprite_x = x - (i << (gfx3_object->x_offset));
-		int sprite_y = y - (i << (gfx3_object->y_offset));
+		int sprite_x = x - (i * (gfx3_object->x_offset));
+		int sprite_y = y - (i * (gfx3_object->y_offset));
 
 		zx0_Decompress(temp, layers[i]);
 
@@ -244,8 +320,8 @@ void gfx3_CompressedTransparentObject(struct gfx3_object_t *gfx3_object, uint24_
 
 	uint8_t size = gfx3_GetLength(gfx3_object);
 	// places the object in the top right corner.
-	x += size;
-	y += size;
+	x += (size * gfx3_object->y_offset);
+	y += (size * gfx3_object->y_offset);
 
 	gfx_sprite_t *temp;
 	uint8_t width = gfx3_object->compressed_width;
@@ -258,8 +334,8 @@ void gfx3_CompressedTransparentObject(struct gfx3_object_t *gfx3_object, uint24_
 
 	for (int i = 0; layers[i] != NULL; i++)
 	{
-		int sprite_x = x - (i << (gfx3_object->x_offset));
-		int sprite_y = y - (i << (gfx3_object->y_offset));
+		int sprite_x = x - (i * (gfx3_object->x_offset));
+		int sprite_y = y - (i * (gfx3_object->y_offset));
 
 		zx0_Decompress(temp, layers[i]);
 

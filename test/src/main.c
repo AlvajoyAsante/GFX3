@@ -16,7 +16,7 @@
 #include "gfx3/gfx3.h"
 
 // Sprites
-gfx_sprite_t *sprites[23] = {house1,
+gfx_sprite_t *sprites[15] = {house1,
                              house2,
                              house3,
                              house4,
@@ -34,16 +34,13 @@ gfx_sprite_t *sprites[23] = {house1,
 
 // Creates a car object
 struct gfx3_object_t objectA;
-struct gfx3_object_t objectB;
 
 int main(void)
 {
     uint8_t x = 0;
 
     // Set Sprites
-    // gfx3_SetObjectCompressedSprites(&object, sprites, teapot1_width, teapot1_height);
     gfx3_SetObjectSprites(&objectA, sprites);
-    gfx3_SetObjectSprites(&objectB, sprites);
 
     /* Initialize graphics drawing */
     gfx_Begin();
@@ -56,18 +53,24 @@ int main(void)
     /* Draw to buffer to avoid artifacts */
     gfx_SetDrawBuffer();
 
-    // New feature!
-    gfx3_FlipObject(&objectA);
 
     // testing offsetting
-    // gfx3_SetObjectOffset(&object, 1, 1);
+    gfx3_SetObjectOffset(&objectA, 1, 1);
+    
+    // gfx3_AddPadding(&objectA, 5, 2);
 
     while (!os_GetCSC())
     {
+        for (int i = 0; i < 14; i++)
+        {
+            gfx_Sprite(sprites[i], (i+1) * sprites[i]->width, 0);
+            gfx_Sprite(objectA.layers[i], i * objectA.layers[i]->width, 25);
+        }
+
         /* Draw a rotated transparent scaled spite */
         gfx_SetColor(7); // Green
         gfx_FillRectangle((LCD_WIDTH - objectA.width) / 2, (LCD_HEIGHT - objectA.height) / 2, objectA.width, objectA.height);
-        
+
         gfx3_SetObjectAngle(&objectA, x);
         gfx3_TransparentObject(&objectA, (LCD_WIDTH - objectA.width) / 2, (LCD_HEIGHT - objectA.height) / 2);
 

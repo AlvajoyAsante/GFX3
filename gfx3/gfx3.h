@@ -76,6 +76,9 @@ extern "C"
 	void gfx3_SetObjectCompressedSprites(struct gfx3_object_t *gfx3_object, unsigned char **sprites, uint16_t width, uint8_t height);
 
 	// other setting
+	void gfx3_FillSprite(gfx_sprite_t *sprite, uint8_t color);
+	void gfx3_AddPadding(struct gfx3_object_t *gfx3_object, uint8_t amount, uint8_t color);
+
 	/**
 	 * Get the size width and height
 	 * @param gfx3_object gfx3_object_t structure.

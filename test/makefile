@@ -9,6 +9,12 @@ COMPRESSED = YES
 ARCHIVED = NO
 
 # ----------------------------
+# Debugging
+# ----------------------------
+
+HAS_PRINTF = NO
+
+# ----------------------------
 
 CFLAGS = -Wall -Wextra -Oz
 CXXFLAGS = -Wall -Wextra -Oz

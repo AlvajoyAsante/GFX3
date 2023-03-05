@@ -13,9 +13,8 @@ title Testing: GFX3
 echo Deleting the old version of %API_NAME% from testing folder...
 rmdir /S/Q ".\src\gfx3"
 
-echo Cleaning folder directories for compiling ...
-rmdir /S/Q ".\bin"
-rmdir /S/Q ".\obj"
+@echo Cleaning folder directories for compiling ...
+make %clean
 
 :: Clears the screen of any infomations displayed whiles deleting the folder.
 cls
@@ -29,8 +28,8 @@ xcopy /y/s/i "..\gfx3" .\src\gfx3
 cls
 
 :: Compiles all the program in order to test for errors and bugs
-make
-PAUSE 
+make %debug
+set /p dummyVar= 
 
 :: Once the bug has been fixed then cleans via dev then the screen is cleared. 
 cls
