@@ -1,7 +1,7 @@
 # GFX3
 ![](https://i.imgur.com/h5pquef.gif)
 
-![](https://img.shields.io/github/release/Overload02/GFX3) ![](https://img.shields.io/github/issues/Overload02/GFX3)
+![](https://img.shields.io/github/commits-since/Overload02/GFX3/v1.0.0-beta.1?style=plastic) ![](https://img.shields.io/github/issues/Overload02/GFX3?style=plastic)
 
 > *GFX3 is a Sprite Stacking library for the [CE C Toolchain](https://github.com/CE-Programming/toolchain). GFX3 allows you to effortlessly manage stacked sprites without the haste of over-coding.*
 
