@@ -14,6 +14,8 @@ void gfx3_SetObjectSprites(struct gfx3_object_t *gfx3_object, gfx_sprite_t **spr
 	gfx3_object->layers = sprites;
 	gfx3_object->compressed_layers = NULL;
 
+	gfx3_object->padding = 0;
+
 	gfx3_SetObjectScale(gfx3_object, 64);
 
 	gfx3_SetObjectOffset(gfx3_object, 1, 1);
@@ -30,6 +32,8 @@ void gfx3_SetObjectCompressedSprites(struct gfx3_object_t *gfx3_object, unsigned
 	gfx3_object->layers = NULL;
 	gfx3_object->compressed_layers = sprites;
 
+	gfx3_object->padding = 0;
+
 	gfx3_SetObjectCompressedSize(gfx3_object, width, height);
 
 	gfx3_SetObjectScale(gfx3_object, 64);
@@ -42,7 +46,12 @@ void gfx3_SetObjectCompressedSprites(struct gfx3_object_t *gfx3_object, unsigned
 }
 
 // Display Options
-void gfx3_FillSprite(gfx_sprite_t *sprite, uint8_t color)
+void gfx3_SetPadding(struct gfx3_object_t *gfx3_object, uint8_t padding)
+{
+	gfx3_object->padding = padding;
+}
+
+static void gfx3_FillSprite(gfx_sprite_t *sprite, uint8_t color)
 {
 
 	uint16_t width = sprite->width;
@@ -58,7 +67,6 @@ void gfx3_FillSprite(gfx_sprite_t *sprite, uint8_t color)
 
 void gfx3_AddPadding(struct gfx3_object_t *gfx3_object, uint8_t amount, uint8_t color)
 {
-
 	// Nothing in the sprites or compressed sprites.
 	if ((gfx3_object->layers == NULL) && (gfx3_object->compressed_layers == NULL))
 		return;
@@ -75,6 +83,8 @@ void gfx3_AddPadding(struct gfx3_object_t *gfx3_object, uint8_t amount, uint8_t 
 	// Checks if the sprite would go over limit
 	if (width + amount > 255 || height + amount > 255 || amount == 0)
 		return;
+
+	gfx3_object->padding = amount;
 
 	gfx_sprite_t **temp = (gfx_sprite_t **)malloc((size + 1) * sizeof(gfx_sprite_t *));
 
@@ -112,9 +122,10 @@ void gfx3_GetObjectSize(struct gfx3_object_t *gfx3_object)
 {
 	gfx_sprite_t **layers = gfx3_object->layers;
 	uint8_t size = gfx3_GetLength(gfx3_object);
+	uint8_t padding = gfx3_object->padding;
 
-	gfx3_object->width = layers[0]->width + (size * gfx3_object->x_offset);
-	gfx3_object->height = layers[0]->height + (size * gfx3_object->y_offset);
+	gfx3_object->width = (layers[0]->width - padding) + (size * gfx3_object->x_offset);
+	gfx3_object->height = (layers[0]->height - padding) + (size * gfx3_object->y_offset);
 }
 
 void gfx3_SetObjectScale(struct gfx3_object_t *gfx3_object, uint8_t scale)
@@ -234,9 +245,10 @@ void gfx3_Object(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_t y)
 		return;
 
 	uint8_t size = gfx3_GetLength(gfx3_object);
-	// places the object in the top right corner.
-	x += (size * gfx3_object->y_offset);
-	y += (size * gfx3_object->y_offset);
+	// places the object in the top left corner.
+	uint8_t padding = gfx3_object->padding;
+	x += (size * gfx3_object->x_offset) - padding;
+	y += (size * gfx3_object->y_offset) - padding;
 
 	uint8_t scale = gfx3_object->scale;
 	uint8_t angle = gfx3_object->angle;
@@ -257,9 +269,11 @@ void gfx3_TransparentObject(struct gfx3_object_t *gfx3_object, uint24_t x, uint8
 		return;
 
 	uint8_t size = gfx3_GetLength(gfx3_object);
-	// places the object in the top right corner.
-	x += (size * gfx3_object->x_offset);
-	y += (size * gfx3_object->y_offset);
+
+	// places the object in the top left corner.
+	uint8_t padding = gfx3_object->padding;
+	x += (size * gfx3_object->x_offset) - padding;
+	y += (size * gfx3_object->y_offset) - padding;
 
 	uint8_t scale = gfx3_object->scale;
 	uint8_t angle = gfx3_object->angle;
@@ -281,9 +295,10 @@ void gfx3_CompressedObject(struct gfx3_object_t *gfx3_object, uint24_t x, uint8_
 		return;
 
 	uint8_t size = gfx3_GetLength(gfx3_object);
-	// places the object in the top right corner.
-	x += (size * gfx3_object->y_offset);
-	y += (size * gfx3_object->y_offset);
+	// places the object in the top left corner.
+	uint8_t padding = gfx3_object->padding;
+	x += (size * gfx3_object->x_offset) - padding;
+	y += (size * gfx3_object->y_offset) - padding;
 
 	gfx_sprite_t *temp;
 	uint8_t width = gfx3_object->compressed_width;
@@ -313,9 +328,10 @@ void gfx3_CompressedTransparentObject(struct gfx3_object_t *gfx3_object, uint24_
 		return;
 
 	uint8_t size = gfx3_GetLength(gfx3_object);
-	// places the object in the top right corner.
-	x += (size * gfx3_object->y_offset);
-	y += (size * gfx3_object->y_offset);
+	// places the object in the top left corner.
+	uint8_t padding = gfx3_object->padding;
+	x += (size * gfx3_object->x_offset) - padding;
+	y += (size * gfx3_object->y_offset) - padding;
 
 	gfx_sprite_t *temp;
 	uint8_t width = gfx3_object->compressed_width;

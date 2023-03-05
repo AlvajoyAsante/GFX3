@@ -41,6 +41,9 @@ extern "C"
 		uint16_t compressed_width;
 		uint8_t compressed_height;
 
+		// Padding
+		uint8_t padding;
+
 		// width and height of object
 		uint16_t width;
 		uint8_t height;
@@ -76,7 +79,19 @@ extern "C"
 	void gfx3_SetObjectCompressedSprites(struct gfx3_object_t *gfx3_object, unsigned char **sprites, uint16_t width, uint8_t height);
 
 	// other setting
-	void gfx3_FillSprite(gfx_sprite_t *sprite, uint8_t color);
+	/**
+	 * Sets the padding in a object
+	 * @param gfx3_object gfx3_object_t structure.
+	 * @param padding padding amount.
+	 * 
+	 * Note: Only do this if you've added padding before hand.
+	 */
+	void gfx3_SetPadding(struct gfx3_object_t *gfx3_object, uint8_t padding);
+	
+	/**
+	 * Adds padding around layers for better rotation
+	 * @param gfx3_object gfx3_object_t structure.
+	 */
 	void gfx3_AddPadding(struct gfx3_object_t *gfx3_object, uint8_t amount, uint8_t color);
 
 	/**
