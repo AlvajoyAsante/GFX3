@@ -55,7 +55,7 @@ int main(void)
 
 
     // testing offsetting
-    gfx3_SetObjectOffset(&objectA, 1, 1);
+    gfx3_SetObjectOffset(&objectA, 2, 2);
     
     gfx3_AddPadding(&objectA, 5, 2);
 
